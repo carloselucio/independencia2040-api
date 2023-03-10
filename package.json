@@ -1,25 +1,29 @@
 {
-  "name": "test-api-node",
-  "version": "0.0.0",
-  "private": true,
+  "name": "independencia2040-api",
+  "version": "1.0.0",
+  "description": "API for Independencia 2040 visit registration app.",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^16.0.3",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1",
-    "nodemon": "^2.0.21"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carloselucio/independencia2040-api.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carloselucio/independencia2040-api/issues"
+  },
+  "homepage": "https://github.com/carloselucio/independencia2040-api#readme",
   "devDependencies": {
     "@types/node": "^18.15.0",
     "prisma": "^4.11.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.11.0"
   }
 }
