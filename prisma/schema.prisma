@@ -11,26 +11,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Person {
-  id               Int             @id @default(autoincrement())
-  first_name       String          @db.VarChar(40)
-  paternal_surname String          @db.VarChar(20)
-  maternal_surname String          @db.VarChar(20)
-  gender           Gender
-  birth_date       DateTime
-  phone_number     String          @db.VarChar(16)
-  person_2040      Person2040
-  has_photo        Boolean
-  religion         Religion
-  health_insurance HealthInsurance
-  civil_status     CivilStatus
-  status           Status
-
-  Beneficiary  Beneficiary[]
-  Familiar     Familiar[]
-  Spirituality Spirituality[]
-}
-
 model User {
   id               Int    @id @default(autoincrement())
   first_name       String @db.VarChar(40)
@@ -39,222 +19,131 @@ model User {
   email            String @unique @db.VarChar(40)
   password         String @unique @db.VarChar(40)
 
-  Post        Post[]
-  Beneficiary Beneficiary[]
+  beneficiary Beneficiary[]
 }
 
-model Job {
-  id                   Int      @id @default(autoincrement())
-  name                 String   @db.VarChar(30)
-  occupation           String   @db.VarChar(30)
-  has_health_insurance Boolean
-  position             Position
-  salary               Int
+model Person {
+  id               Int      @id @default(autoincrement())
+  first_name       String   @db.VarChar(40)
+  paternal_surname String   @db.VarChar(20)
+  maternal_surname String   @db.VarChar(20)
+  full_name        String   @db.VarChar(80)
+  gender           String   @db.VarChar(10)
+  birth_date       DateTime
+  phone_number     String   @db.VarChar(16)
+  person_2040      String   @db.VarChar(6)
+  has_photo        Boolean
+  religion         String   @db.VarChar(30)
+  health_insurance String   @db.VarChar(16)
+  civil_status     String   @db.VarChar(16)
+  status           String   @db.VarChar(16)
 
-  Familiar Familiar[]
+  beneficiary  Beneficiary?
+  familiar     Familiar?
+  spirituality Spirituality[]
+}
+
+model Beneficiary {
+  id                      Int       @id @default(autoincrement())
+  person_id               Int       @unique
+  person                  Person    @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  location                Location?
+  family                  Family?
+  health                  Health?
+  responsible_id          Int
+  responsible             User      @relation(fields: [responsible_id], references: [id], onDelete: Cascade)
+  curp                    String?   @db.VarChar(20)
+  is_tentative_birth_date Boolean
+  how_found_out           String    @db.VarChar(30)
+
+  relatives Familiar[]
+}
+
+model Familiar {
+  id             Int         @id @default(autoincrement())
+  person_id      Int         @unique
+  person         Person      @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  beneficiary_id Int
+  beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  education      Education?
+  job            Job?
+  relationship   String      @db.VarChar(20)
 }
 
 model Education {
-  id                Int         @id @default(autoincrement())
-  school_level      SchoolLevel
-  last_school_grade String      @db.VarChar(40)
+  id                Int     @id @default(autoincrement())
+  school_level      String  @db.VarChar(20)
+  last_school_grade String  @db.VarChar(40)
   is_studying       Boolean
-  career            String      @db.VarChar(100)
+  career            String  @db.VarChar(40)
 
-  Familiar Familiar[]
+  familiar_id Int      @unique
+  familiar    Familiar @relation(fields: [familiar_id], references: [id], onDelete: Cascade)
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Job {
+  id                   Int     @id @default(autoincrement())
+  name                 String  @db.VarChar(30)
+  occupation           String  @db.VarChar(30)
+  has_health_insurance Boolean
+  position             String  @db.VarChar(30)
+  salary               Float?
+
+  familiar_id Int      @unique
+  familiar    Familiar @relation(fields: [familiar_id], references: [id], onDelete: Cascade)
 }
 
 model Family {
-  id                          Int                @id @default(autoincrement())
-  parents_civil_status        ParentsCivilStatus
-  house_type                  HouseType
+  id                          Int     @id @default(autoincrement())
+  parents_civil_status        String  @db.VarChar(16)
+  house_type                  String  @db.VarChar(20)
   number_of_siblings          Int
   civil_registration          Boolean
   has_birth_certificate_photo Boolean
 
-  Beneficiary Beneficiary[]
+  beneficiary_id Int         @unique
+  beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id], onDelete: Cascade)
 }
 
 model Health {
-  id                         Int     @id @default(autoincrement())
-  birth_hospital             String  @db.VarChar(100)
-  birth_weight               Int
-  birth_height               Int
+  id                         Int         @id @default(autoincrement())
+  birth_hospital             String      @db.VarChar(50)
+  birth_weight               Float?
+  birth_height               Float?
   has_vaccination_card_photo Boolean
+  beneficiary_id             Int         @unique
+  beneficiary                Beneficiary @relation(fields: [beneficiary_id], references: [id], onDelete: Cascade)
 
-  vaccines    Vaccine[]
-  Beneficiary Beneficiary[]
+  vaccines Vaccine[]
 }
 
 model Location {
-  id              Int    @id @default(autoincrement())
-  state           String @db.VarChar(30)
-  municipality    String @db.VarChar(30)
-  locality        String @db.VarChar(30)
-  neighborhood    String @db.VarChar(30)
-  street          String @db.VarChar(30)
-  outdoor_number  String @db.VarChar(8)
-  interior_number String @db.VarChar(8)
-  zip_code        String @db.VarChar(8)
+  id              Int     @id @default(autoincrement())
+  state           String  @db.VarChar(30)
+  municipality    String  @db.VarChar(30)
+  locality        String  @db.VarChar(30)
+  neighborhood    String  @db.VarChar(30)
+  street          String? @db.VarChar(30)
+  outdoor_number  String? @db.VarChar(8)
+  interior_number String? @db.VarChar(8)
+  zip_code        String? @db.VarChar(8)
 
-  Beneficiary Beneficiary[]
+  beneficiary_id Int         @unique
+  beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id], onDelete: Cascade)
 }
 
 model Vaccine {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   health_id   Int
-  health      Health   @relation(fields: [health_id], references: [id], onDelete: Cascade)
-  name        String   @db.VarChar(50)
+  health      Health    @relation(fields: [health_id], references: [id], onDelete: Cascade)
+  name        String    @db.VarChar(30)
   was_applied Boolean
-  date        DateTime
-}
-
-model Beneficiary {
-  id                      Int         @id @default(autoincrement())
-  person_id               Int
-  person                  Person      @relation(fields: [person_id], references: [id], onDelete: Cascade)
-  location_id             Int
-  location                Location    @relation(fields: [location_id], references: [id], onDelete: Cascade)
-  family_id               Int
-  family                  Family      @relation(fields: [family_id], references: [id], onDelete: Cascade)
-  health_id               Int
-  health                  Health      @relation(fields: [health_id], references: [id], onDelete: Cascade)
-  responsible_id          Int
-  responsible             User        @relation(fields: [responsible_id], references: [id], onDelete: Cascade)
-  curp                    String      @db.VarChar(20)
-  is_tentative_birth_date Boolean
-  how_found_out           HowFoundOut
-
-  Familiar Familiar[]
-}
-
-model Familiar {
-  id             Int          @id @default(autoincrement())
-  person_id      Int
-  person         Person       @relation(fields: [person_id], references: [id], onDelete: Cascade)
-  beneficiary_id Int
-  beneficiary    Beneficiary  @relation(fields: [beneficiary_id], references: [id], onDelete: Cascade)
-  education_id   Int
-  education      Education    @relation(fields: [education_id], references: [id], onDelete: Cascade)
-  job_id         Int
-  job            Job          @relation(fields: [job_id], references: [id], onDelete: Cascade)
-  relationship   Relationship
+  date        DateTime?
 }
 
 model Spirituality {
   id        Int    @id @default(autoincrement())
   person_id Int
   person    Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
-  field     Field
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
-enum Person2040 {
-  P2040
-  R2040
-  F2040
-  C2040
-}
-
-enum Religion {
-  Bautista
-  Catolico
-  Cristiano
-  EvangelicaPentecostes
-  Mormon
-  Ninguna
-}
-
-enum HealthInsurance {
-  IMMS
-  ISSSTE
-  INSABI
-  Magisterio
-  SeguroPrivado
-  NoTiene
-}
-
-enum CivilStatus {
-  Casados
-  Divorciados
-  MadreSoltera
-  PadreSoltero
-  Separados
-  Soltero
-  UnionLibre
-  Viudo
-}
-
-enum Status {
-  Activo
-  Inactivo
-  PorContactar
-  Fallecido
-}
-
-enum Position {
-  Empleado
-  Empleador
-  TrabajadorPorCuentaPropia
-  TrabajadorSinSalarioFijo
-}
-
-enum SchoolLevel {
-  Primaria
-  Secundaria
-  Preparatoria
-  Tecnica
-  Profesional
-}
-
-enum ParentsCivilStatus {
-  Casados
-  Divorciados
-  MadreSoltera
-  PadreSoltero
-  Separados
-  Soltero
-  UnionLibre
-  Viudo
-}
-
-enum HouseType {
-  Propia
-  Prestada
-  Renta
-  CohabitadaPadre
-  CohabitadaMadre
-}
-
-enum HowFoundOut {
-  BocaEnBoca
-  ElPlanMeBusco
-  RecomendacionConocido
-}
-
-enum Relationship {
-  a
-  b
-}
-
-enum Field {
-  Bautizo
-  Comunion
-  Confirmacion
-  Matrimonio
-  Entronizacion
+  field     String @db.VarChar(20)
 }

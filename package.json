@@ -2,8 +2,10 @@
   "name": "independencia2040-api",
   "version": "1.0.0",
   "description": "API for Independencia 2040 visit registration app.",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "scripts": {
+    "dev": "nodemon --exec npx ts-node ./src/index.ts",
+    "start": "ts-node ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,12 +20,14 @@
   },
   "homepage": "https://github.com/carloselucio/independencia2040-api#readme",
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "@types/node": "^18.15.0",
     "prisma": "^4.11.0",
-    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0"
+    "@prisma/client": "^4.11.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   }
 }
