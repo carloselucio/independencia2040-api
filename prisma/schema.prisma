@@ -50,8 +50,8 @@ model Beneficiary {
   location                Location?
   family                  Family?
   health                  Health?
-  responsible_id          Int
-  responsible             User      @relation(fields: [responsible_id], references: [id], onDelete: Cascade)
+  responsible_id          Int?
+  responsible             User?     @relation(fields: [responsible_id], references: [id], onDelete: SetNull)
   curp                    String?   @db.VarChar(20)
   is_tentative_birth_date Boolean
   how_found_out           String    @db.VarChar(30)
