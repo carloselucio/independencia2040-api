@@ -96,7 +96,7 @@ model Job {
 model Family {
   id                          Int     @id @default(autoincrement())
   parents_civil_status        String  @db.VarChar(16)
-  house_type                  String  @db.VarChar(20)
+  house_type                  String  @db.VarChar(30)
   number_of_siblings          Int
   civil_registration          Boolean
   has_birth_certificate_photo Boolean

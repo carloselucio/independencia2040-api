@@ -2,10 +2,7 @@ import { Request, Response } from 'express';
 import { get_people_service, get_people_by_name_service, get_person_by_id_service } from "../services/person";
 
 export async function get_people_controller(req: Request, res: Response) {
-    const desc = " "
-    if (desc){
-        console.log("SIUU")
-    }
+
     // Comprobation of the method
     if (req.method !== "GET") {
         return res.status(405).json({ error: "Method not allowed" });
@@ -30,8 +27,8 @@ export async function get_people_by_name_controller(req: Request, res: Response)
 
     const name = req.params.name
 
-    // Errors managementS
-    if (name) {
+    // Errors management
+    if (name !== null) {
         try {
             // Calling service to get Plan Independencia 2040 people
             const people = await get_people_by_name_service(name);
@@ -54,8 +51,8 @@ export async function get_person_by_id_controller(req: Request, res: Response) {
 
     const id = Number(req.params.id)
 
-    // Errors managementS
-    if (id) {
+    // Errors management
+    if (id !== null) {
         try {
             // Calling service to get person with id
             const user = await get_person_by_id_service(id);

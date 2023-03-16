@@ -38,7 +38,7 @@ CREATE TABLE [dbo].[Person] (
 CREATE TABLE [dbo].[Beneficiary] (
     [id] INT NOT NULL IDENTITY(1,1),
     [person_id] INT NOT NULL,
-    [responsible_id] INT NOT NULL,
+    [responsible_id] INT,
     [curp] VARCHAR(20),
     [is_tentative_birth_date] BIT NOT NULL,
     [how_found_out] VARCHAR(30) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE [dbo].[Job] (
 CREATE TABLE [dbo].[Family] (
     [id] INT NOT NULL IDENTITY(1,1),
     [parents_civil_status] VARCHAR(16) NOT NULL,
-    [house_type] VARCHAR(20) NOT NULL,
+    [house_type] VARCHAR(30) NOT NULL,
     [number_of_siblings] INT NOT NULL,
     [civil_registration] BIT NOT NULL,
     [has_birth_certificate_photo] BIT NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE [dbo].[Family] (
 -- CreateTable
 CREATE TABLE [dbo].[Health] (
     [id] INT NOT NULL IDENTITY(1,1),
-    [birth_hospital] VARCHAR(50) NOT NULL,
+    [birth_hospital] VARCHAR(70) NOT NULL,
     [birth_weight] FLOAT(53),
     [birth_height] FLOAT(53),
     [has_vaccination_card_photo] BIT NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE [dbo].[Spirituality] (
 ALTER TABLE [dbo].[Beneficiary] ADD CONSTRAINT [Beneficiary_person_id_fkey] FOREIGN KEY ([person_id]) REFERENCES [dbo].[Person]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Beneficiary] ADD CONSTRAINT [Beneficiary_responsible_id_fkey] FOREIGN KEY ([responsible_id]) REFERENCES [dbo].[User]([id]) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE [dbo].[Beneficiary] ADD CONSTRAINT [Beneficiary_responsible_id_fkey] FOREIGN KEY ([responsible_id]) REFERENCES [dbo].[User]([id]) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Familiar] ADD CONSTRAINT [Familiar_person_id_fkey] FOREIGN KEY ([person_id]) REFERENCES [dbo].[Person]([id]) ON DELETE CASCADE ON UPDATE CASCADE;

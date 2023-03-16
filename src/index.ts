@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import user_router from './routes/user';
 import person_router from './routes/person';
+import beneficiary_router from './routes/beneficiary';
+import familiar_router from './routes/familiar';
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ app.use(express.urlencoded({extended: true})); // parse incoming request with UR
 
 app.use('/api', user_router);
 app.use('/api', person_router);
+app.use('/api', beneficiary_router);
+app.use('/api', familiar_router);
 
 function onStart(){
     console.log(`Server running on port ${port}`);

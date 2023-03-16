@@ -11,7 +11,7 @@ export async function login_controller(req: Request, res: Response) {
     const { email, password } = req.body;
 
     // Errors management
-    if (email && password) {
+    if (email !== null && password !== null) {
         try {
             // Calling service to validate login
             const user = await login_service(email, password);
