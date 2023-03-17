@@ -4,7 +4,7 @@ import { login_service } from "../services/user";
 export async function login_controller(req: Request, res: Response) {
 
     // Comprobation of the method
-    if (req.method !== "GET") {
+    if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
     }
 

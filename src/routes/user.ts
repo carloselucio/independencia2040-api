@@ -4,6 +4,6 @@ import { login_controller } from "../controllers/user";
 let router = express.Router();
 
 router.route('/login')
-    .get(login_controller);
+    .post(login_controller);
 
 export default router;

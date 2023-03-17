@@ -8,13 +8,13 @@ export async function create_familiar_controller(req: Request, res: Response) {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { first_name, paternal_surname, maternal_surname, gender, birth_date, phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary } = req.body;
+    const { first_name, paternal_surname, maternal_surname, gender, birth_date, phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary, spiritualities} = req.body;
 
     // Errors management
-    if (first_name !== null && paternal_surname !== null && maternal_surname !== null && gender !== null && birth_date !== null && phone_number !== null && person_2040 !== null && has_photo !== null && religion !== null && health_insurance !== null && civil_status !== null && status !== null && relationship !== null && beneficiary_id !== null && school_level !== null && last_school_grade !== null && is_studying !== null && career !== null && job_name !== null && occupation !== null && has_health_insurance !== null && position !== null) {
+    if (first_name !== null && paternal_surname !== null && maternal_surname !== null && gender !== null && birth_date !== null && phone_number !== null && person_2040 !== null && has_photo !== null && religion !== null && health_insurance !== null && civil_status !== null && status !== null && relationship !== null && beneficiary_id !== null && school_level !== null && last_school_grade !== null && is_studying !== null && career !== null && job_name !== null && occupation !== null && has_health_insurance !== null && position !== null && spiritualities !== null) {
         try {
             // Calling service to create familiar
-            const familiar = await create_familiar_service(first_name, paternal_surname, maternal_surname, gender, new Date(birth_date), phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary);
+            const familiar = await create_familiar_service(first_name, paternal_surname, maternal_surname, gender, new Date(birth_date), phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary, spiritualities);
 
             res.status(200).json(familiar);
         } catch (e) {
@@ -33,13 +33,13 @@ export async function update_familiar_controller(req: Request, res: Response) {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { id, first_name, paternal_surname, maternal_surname, gender, birth_date, phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary } = req.body;
+    const { id, first_name, paternal_surname, maternal_surname, gender, birth_date, phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary, spiritualities} = req.body;
 
     // Errors management
-    if (id !== null && first_name !== null && paternal_surname !== null && maternal_surname !== null && gender !== null && birth_date !== null && phone_number !== null && person_2040 !== null && has_photo !== null && religion !== null && health_insurance !== null && civil_status !== null && status !== null && relationship !== null && beneficiary_id !== null && school_level !== null && last_school_grade !== null && is_studying !== null && career !== null && job_name !== null && occupation !== null && has_health_insurance !== null && position !== null) {
+    if (id !== null && first_name !== null && paternal_surname !== null && maternal_surname !== null && gender !== null && birth_date !== null && phone_number !== null && person_2040 !== null && has_photo !== null && religion !== null && health_insurance !== null && civil_status !== null && status !== null && relationship !== null && beneficiary_id !== null && school_level !== null && last_school_grade !== null && is_studying !== null && career !== null && job_name !== null && occupation !== null && has_health_insurance !== null && position !== null && spiritualities !== null) {
         try {
             // Calling service to update familiar
-            const familiar = await update_familiar_service(id, first_name, paternal_surname, maternal_surname, gender, new Date(birth_date), phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary);
+            const familiar = await update_familiar_service(id, first_name, paternal_surname, maternal_surname, gender, new Date(birth_date), phone_number, person_2040, has_photo, religion, health_insurance, civil_status, status, relationship, beneficiary_id, school_level, last_school_grade, is_studying, career, job_name, occupation, has_health_insurance, position, salary, spiritualities);
 
             res.status(200).json(familiar);
         } catch (e) {

@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 
-export async function create_beneficiary_service(first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, curp: string, is_tentative_birth_date: boolean, how_found_out: string, state: string, municipality: string, locality: string, neighborhood: string, street: string, outdoor_number: string, interior_number: string, zip_code: string, parents_civil_status: string, house_type: string, number_of_siblings: number, civil_registration: boolean, has_birth_certificate_photo: boolean, birth_hospital: string, birth_weight: number, birth_height: number, has_vaccination_card_photo: boolean, vaccines: Array<{name: string, was_applied: boolean, date: Date|null}>, responsible_id: number){
+export async function create_beneficiary_service(first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, curp: string, is_tentative_birth_date: boolean, how_found_out: string, state: string, municipality: string, locality: string, neighborhood: string, street: string, outdoor_number: string, interior_number: string, zip_code: string, parents_civil_status: string, house_type: string, number_of_siblings: number, civil_registration: boolean, has_birth_certificate_photo: boolean, birth_hospital: string, birth_weight: number, birth_height: number, has_vaccination_card_photo: boolean, vaccines: Array<{name: string, was_applied: boolean, date: Date|null}>, responsible_id: number, spiritualities: Array<{field: string}>){
 
     // Database query
     const beneficiary = await prisma.person.create({
@@ -57,6 +57,9 @@ export async function create_beneficiary_service(first_name: string, paternal_su
                         }
                     }
                 }
+            }, 
+            spirituality: {
+                create: spiritualities
             }
         },
         select: {
@@ -67,7 +70,7 @@ export async function create_beneficiary_service(first_name: string, paternal_su
     return beneficiary;
 }
 
-export async function update_beneficiary_service(id: number, first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, curp: string, is_tentative_birth_date: boolean, how_found_out: string, state: string, municipality: string, locality: string, neighborhood: string, street: string, outdoor_number: string, interior_number: string, zip_code: string, parents_civil_status: string, house_type: string, number_of_siblings: number, civil_registration: boolean, has_birth_certificate_photo: boolean, birth_hospital: string, birth_weight: number, birth_height: number, has_vaccination_card_photo: boolean, vaccines: Array<{name: string, was_applied: boolean, date: Date|null}>, responsible_id: number){
+export async function update_beneficiary_service(id: number, first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, curp: string, is_tentative_birth_date: boolean, how_found_out: string, state: string, municipality: string, locality: string, neighborhood: string, street: string, outdoor_number: string, interior_number: string, zip_code: string, parents_civil_status: string, house_type: string, number_of_siblings: number, civil_registration: boolean, has_birth_certificate_photo: boolean, birth_hospital: string, birth_weight: number, birth_height: number, has_vaccination_card_photo: boolean, vaccines: Array<{name: string, was_applied: boolean, date: Date|null}>, responsible_id: number, spiritualities: Array<{field: string}>){
 
     // Database query
     const beneficiary = await prisma.person.update({
@@ -128,6 +131,9 @@ export async function update_beneficiary_service(id: number, first_name: string,
                         }
                     }
                 }
+            },
+            spirituality: {
+                create: spiritualities
             }
         },
         select: {

@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 
-export async function create_familiar_service(first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, relationship: string, beneficiary_id: number, school_level: string, last_school_grade: string, is_studying: boolean, career: string, job_name: string, occupation: string, has_health_insurance: boolean, position: string, salary: number|null){
+export async function create_familiar_service(first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, relationship: string, beneficiary_id: number, school_level: string, last_school_grade: string, is_studying: boolean, career: string, job_name: string, occupation: string, has_health_insurance: boolean, position: string, salary: number|null, spiritualities: Array<{field: string}>){
 
     // Database query
     const familiar = await prisma.person.create({
@@ -40,6 +40,9 @@ export async function create_familiar_service(first_name: string, paternal_surna
                         }
                     }
                 }
+            },
+            spirituality: {
+                create: spiritualities
             }
         }
     });
@@ -47,7 +50,7 @@ export async function create_familiar_service(first_name: string, paternal_surna
     return familiar;
 }
 
-export async function update_familiar_service(id: number, first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, relationship: string, beneficiary_id: number, school_level: string, last_school_grade: string, is_studying: boolean, career: string, job_name: string, occupation: string, has_health_insurance: boolean, position: string, salary: number|null){
+export async function update_familiar_service(id: number, first_name: string, paternal_surname: string, maternal_surname: string, gender: string, birth_date: Date, phone_number: string, person_2040: string, has_photo: boolean, religion: string, health_insurance: string, civil_status: string, status: string, relationship: string, beneficiary_id: number, school_level: string, last_school_grade: string, is_studying: boolean, career: string, job_name: string, occupation: string, has_health_insurance: boolean, position: string, salary: number|null, spiritualities: Array<{field: string}>){
 
     // Database query
     const familiar = await prisma.person.update({
@@ -90,6 +93,9 @@ export async function update_familiar_service(id: number, first_name: string, pa
                         }
                     }
                 }
+            },
+            spirituality: {
+                create: spiritualities
             }
         }
     });

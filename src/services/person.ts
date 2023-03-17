@@ -106,6 +106,7 @@ export async function get_person_by_id_service(id: number){
                     },
                     responsible: {
                         select: {
+                            id: true,
                             first_name: true,
                             paternal_surname: true,
                             maternal_surname: true,
